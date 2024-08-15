@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./Frontened_SugarcaneManagementSystem
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80" # Map port 80 in the container to port 3000 on the host
+
+  backend:
+    build:
+      context: ./Backened_SugarcaneManagementSystem
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # Map port 8080 in the container to port 8080 on the host
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/sugarcanemanagementsystem
+      SPRING_DATASOURCE_USERNAME: Deepak
+      SPRING_DATASOURCE_PASSWORD: deep
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: deep
+      MYSQL_DATABASE: sugarcanemanagementsystem
+    ports:
+      - "3306:3306" # Map port 3306 in the container to port 3306 on the host
